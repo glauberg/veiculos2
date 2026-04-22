@@ -26,7 +26,7 @@ O domínio apresenta relacionamentos naturais e não-forçados que atendem todos
 
 ### 2.1 Diagrama de Relacionamentos
 
-![Diagrama de entidades](image.png)
+![Diagrama de entidades](diagrama.png)
 
 ### 2.2 Descrição dos Relacionamentos
 
