@@ -32,12 +32,12 @@ O domínio apresenta relacionamentos naturais e não-forçados que atendem todos
 
 | Relacionamento | Entidades | Tipo | Cascade |
 |---|---|---|---|
-| Um veículo possui muitos acessórios | Veiculo → Acessorio | Many-to-Many | PERSIST, MERGE |
-| Um acessório pertence a muitos veículos | Acessorio → Veiculo | Many-to-Many (inverso) | — |
-| Um veículo possui muitas locações | Veiculo → Locacao | One-to-Many | ALL + orphanRemoval |
-| Uma locação pertence a um veículo | Locacao → Veiculo | Many-to-One | — |
-| Um cliente possui muitas locações | Cliente → Locacao | One-to-Many | ALL + orphanRemoval |
-| Uma locação pertence a um cliente | Locacao → Cliente | Many-to-One | — |
+| Um veículo possui muitos acessórios | Veiculo --> Acessorio | Many-to-Many | PERSIST, MERGE |
+| Um acessório pertence a muitos veículos | Acessorio --> Veiculo | Many-to-Many (inverso) | — |
+| Um veículo possui muitas locações | Veiculo --> Locacao | One-to-Many | ALL + orphanRemoval |
+| Uma locação pertence a um veículo | Locacao --> Veiculo | Many-to-One | — |
+| Um cliente possui muitas locações | Cliente --> Locacao | One-to-Many | ALL + orphanRemoval |
+| Uma locação pertence a um cliente | Locacao --> Cliente | Many-to-One | — |
 
 ### 2.3 Atributos por Entidade
 
@@ -188,7 +188,7 @@ cd veiculos2
 | `pom.xml` | Dependências do projeto |
 | `src/main/resources/application.properties` | Configuração das duas datasources |
 | `locacao-veiculos2.postman_collection.json` | Collection para teste dos endpoints |
-| `diagrama-entidades.svg` | Diagrama de entidades e relacionamentos |
+| `diagrama.png` | Diagrama de entidades e relacionamentos |
 | `README.md` | Este documento |
 
 ---
