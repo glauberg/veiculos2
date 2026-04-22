@@ -146,14 +146,21 @@
             "method": "GET",
             "url": { "raw": "http://localhost:8080/clientes/1", "host": ["localhost"], "port": "8080", "path": ["clientes", "1"] }
           }
-        }
+        },
+          {
+            "name": "17. Buscar Cliente com Locações (JOIN FETCH)",
+            "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:8080/clientes/1", "host": ["localhost"], "port": "8080", "path": ["clientes", "1"] }
+            }
+          }
       ]
     },
     {
       "name": "LOCACOES",
       "item": [
         {
-          "name": "17. Criar Locação (Sucesso)",
+          "name": "18. Criar Locação (Sucesso)",
           "request": {
             "method": "POST",
             "header": [{ "key": "Content-Type", "value": "application/json" }],
@@ -162,7 +169,7 @@
           }
         },
         {
-          "name": "18. Criar Locação (Erro - veículo indisponível)",
+          "name": "19. Criar Locação (Erro - veículo indisponível)",
           "request": {
             "method": "POST",
             "header": [{ "key": "Content-Type", "value": "application/json" }],
@@ -171,7 +178,7 @@
           }
         },
         {
-          "name": "19. Criar Locação (Erro - data fim anterior)",
+          "name": "20. Criar Locação (Erro - data fim anterior)",
           "request": {
             "method": "POST",
             "header": [{ "key": "Content-Type", "value": "application/json" }],
@@ -180,28 +187,35 @@
           }
         },
         {
-          "name": "20. Listar Locações",
+          "name": "21. Listar Locações",
           "request": {
             "method": "GET",
             "url": { "raw": "http://localhost:8080/locacoes", "host": ["localhost"], "port": "8080", "path": ["locacoes"] }
           }
         },
         {
-          "name": "21. Buscar Locação por ID",
+          "name": "22. Buscar Locação por ID",
           "request": {
             "method": "GET",
             "url": { "raw": "http://localhost:8080/locacoes/1", "host": ["localhost"], "port": "8080", "path": ["locacoes", "1"] }
           }
         },
         {
-          "name": "22. Buscar Locações por Cliente",
+          "name": "23. Buscar Locação com Cliente e Veículo (JOIN FETCH)",
+          "request": {
+          "method": "GET",
+          "url": { "raw": "http://localhost:8080/locacoes/1", "host": ["localhost"], "port": "8080", "path": ["locacoes", "1"] }
+          }
+        }, 
+      {
+          "name": "24. Buscar Locações por Cliente",
           "request": {
             "method": "GET",
             "url": { "raw": "http://localhost:8080/locacoes/cliente/1", "host": ["localhost"], "port": "8080", "path": ["locacoes", "cliente", "1"] }
           }
         },
         {
-          "name": "23. Encerrar Locação",
+          "name": "25. Encerrar Locação",
           "request": {
             "method": "DELETE",
             "url": { "raw": "http://localhost:8080/locacoes/1/encerrar", "host": ["localhost"], "port": "8080", "path": ["locacoes", "1", "encerrar"] }

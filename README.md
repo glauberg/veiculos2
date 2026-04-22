@@ -3,6 +3,7 @@
 **Disciplina:** PPGTI 1004 - Desenvolvimento Web II  
 **Atividade:** 02 - Sistema de Persistência Híbrida e Relacionamentos  
 **Tecnologias:** Java 17, Spring Boot 3.5.13, Spring Data JPA, H2 Database
+**Autor:** Glauber Galvão
 
 ---
 
@@ -147,6 +148,7 @@ Toda operação CREATE, UPDATE ou DELETE nas entidades principais dispara automa
 | GET | /locacoes/cliente/{clienteId} | Locações por cliente |
 | DELETE | /locacoes/{id}/encerrar | Encerrar locação e liberar veículo |
 
+Ausência do PUT em Locação: uma locação é um contrato firmado entre cliente e veículo — suas condições (datas e valor) são definidas no momento da criação e não devem ser alteradas posteriormente. A única operação de modificação válida é o encerramento, implementado via DELETE /locacoes/{id}/encerrar, que remove o registro e restaura a disponibilidade do veículo. Portanto, essa decisão refletiu uma regra de negócio do domínio, não uma omissão técnica.
 ---
 
 ## 7. Como Executar
@@ -180,7 +182,57 @@ cd veiculos2
 
 ---
 
-## 8. Arquivos da Entrega
+## 8. Roteiro de Testes (Postman)
+A collection locacao-veiculos2.postman_collection.json deve ser importada no Postman. Os testes devem ser executados na ordem abaixo, pois operações posteriores dependem de dados criados anteriormente.
+
+Fase 1 — Acessórios
+#	Requisição	Método	Rota	Resultado esperado
+1	Cadastrar Acessório GPS	POST	/acessorios	201 — id: 1
+2	Cadastrar Acessório Cadeirinha	POST	/acessorios	201 — id: 2
+3	Listar Acessórios	GET	/acessorios	200 — lista com 2 itens
+4	Buscar Acessório por ID	GET	/acessorios/1	200 — dados do GPS
+5	Atualizar Acessório	PUT	/acessorios/1	200 — nome atualizado
+
+Fase 2 — Veículos
+#	Requisição	Método	Rota	Resultado esperado
+6	Cadastrar Veículo com acessórios	POST	/veiculos	201 — acessórios vinculados
+7	Cadastrar Veículo SUV	POST	/veiculos	201 — id: 2
+8	Cadastrar Veículo (erro — valor abaixo do mínimo)	POST	/veiculos	400 — RegraNegocioException
+9	Listar Veículos	GET	/veiculos	200 — lista com 2 veículos
+10	Buscar Veículo por ID (JOIN FETCH)	GET	/veiculos/1	200 — acessórios carregados em uma única query
+11	Buscar Disponíveis por Categoria	GET	/veiculos/disponiveis?categoria=ECONOMICO	200 — Corolla listado
+
+Fase 3 — Clientes
+#	Requisição	Método	Rota	Resultado esperado
+12	Cadastrar Cliente	POST	/clientes	201 — id: 1, totalLocacoes: 0
+13	Cadastrar Cliente (erro — CPF duplicado)	POST	/clientes	400 — RegraNegocioException
+14	Cadastrar Cliente (erro — email inválido)	POST	/clientes	400 — erro de validação no campo email
+15	Listar Clientes	GET	/clientes	200 — lista com 1 cliente
+16	Buscar Cliente por ID	GET	/clientes/1	200 — dados do cliente
+17	Buscar Cliente com Locações (JOIN FETCH)	GET	/clientes/1	200 — locações carregadas em uma única query
+
+Fase 4 — Locações
+#	Requisição	Método	Rota	Resultado esperado
+18	Criar Locação	POST	/locacoes	201 — valorTotal calculado, veículo indisponível
+19	Criar Locação (erro — veículo indisponível)	POST	/locacoes	400 — RegraNegocioException
+20	Criar Locação (erro — data fim anterior)	POST	/locacoes	400 — RegraNegocioException
+21	Listar Locações	GET	/locacoes	200 — lista com 1 locação
+22	Buscar Locação por ID	GET	/locacoes/1	200 — dados da locação
+23	Buscar Locação com Cliente e Veículo (JOIN FETCH)	GET	/locacoes/1	200 — cliente e veículo carregados em uma única query
+24	Buscar Locações por Cliente	GET	/locacoes/cliente/1	200 — lista com 1 locação
+25	Encerrar Locação	DELETE	/locacoes/1/encerrar	204 — veículo volta a disponivel: true
+Verificação do JOIN FETCH no console
+
+Ao executar os testes 10, 17 e 23, o console da aplicação (com show-sql=true ativo) deve exibir uma única query SQL contendo LEFT JOIN ou JOIN — confirmando que os relacionamentos LAZY foram carregados antecipadamente. A presença de queries separadas para cada relacionamento indica problema na configuração do EntityManager.
+
+Verificação da auditoria (Base B)
+Após executar os testes, acesse o H2 Console com jdbc:h2:mem:baseB e execute:
+
+sql SELECT * FROM LOG_AUDITORIA ORDER BY DATA_HORA DESC;
+
+Devem constar entradas para cada operação CREATE, UPDATE e DELETE executada via Postman.
+
+## 9. Arquivos da Entrega
 
 | Arquivo | Descrição |
 |---|---|
@@ -193,7 +245,7 @@ cd veiculos2
 
 ---
 
-## 9. Estrutura do Projeto
+## 10. Estrutura do Projeto
 
 ```
 src/main/java/com/locacao/veiculos2/
