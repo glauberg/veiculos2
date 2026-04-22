@@ -8,7 +8,7 @@
       "name": "ACESSORIOS",
       "item": [
         {
-          "name": "1. Cadastrar Acessório",
+          "name": "1. Cadastrar Acessório GPS",
           "request": {
             "method": "POST",
             "header": [{ "key": "Content-Type", "value": "application/json" }],
@@ -17,7 +17,7 @@
           }
         },
         {
-          "name": "2. Cadastrar Acessório 2",
+          "name": "2. Cadastrar Acessório Cadeirinha",
           "request": {
             "method": "POST",
             "header": [{ "key": "Content-Type", "value": "application/json" }],
